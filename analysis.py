@@ -1,27 +1,6 @@
 """
 Renewable Energy Machine Learning Analysis
 RMIT Case Studies in Data Science - Individual Task 1
-
-Purpose
--------
-Compare Linear Regression and LightGBM on:
-1. Solar photovoltaic generation data from two plants in India.
-2. Wind turbine SCADA data from Turkey.
-
-The script:
-- validates input files,
-- reports dataset dimensions and missing values,
-- engineers cyclic time/direction features,
-- applies a chronological 80/20 train-test split,
-- trains both models,
-- evaluates MAE, RMSE and R²,
-- exports reproducible tables and figures.
-
-Raw Kaggle datasets are not included in this repository.
-Place them in:
-    solar_datasets/
-    wind_datasets/
-next to this script before running.
 """
 
 from pathlib import Path
@@ -258,11 +237,11 @@ def main():
 
     validate_inputs(solar_dir, wind_dir)
 
-    # ---------- Raw dataset evidence ----------
+   
     summary = raw_dataset_summary(solar_dir, wind_dir)
     summary.to_csv(results_dir / "dataset_summary.csv", index=False)
 
-    # ---------- Solar ----------
+   
     solar = pd.concat(
         [
             load_solar_plant(solar_dir, 1),
@@ -301,7 +280,7 @@ def main():
         "Solar",
     )
 
-    # ---------- Wind ----------
+   
     wind = pd.read_csv(wind_dir / "T1.csv")
     wind["Date/Time"] = pd.to_datetime(
         wind["Date/Time"], format="%d %m %Y %H:%M"
@@ -338,7 +317,7 @@ def main():
         "Wind",
     )
 
-    # ---------- Export evidence ----------
+  
     all_metrics = pd.concat(
         [solar_metrics, wind_metrics], ignore_index=True
     )
