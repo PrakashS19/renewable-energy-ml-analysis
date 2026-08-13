@@ -1,0 +1,33 @@
+RENEWABLE ENERGY ML ANALYSIS - REPRODUCIBLE RUN
+========================================================
+
+DATASET SUMMARY
+domain               file  rows  columns  missing_values                                                                                          attributes
+ Solar Plant 1 Generation 68778        7               0                       DATE_TIME, PLANT_ID, SOURCE_KEY, DC_POWER, AC_POWER, DAILY_YIELD, TOTAL_YIELD
+ Solar    Plant 1 Weather  3182        6               0               DATE_TIME, PLANT_ID, SOURCE_KEY, AMBIENT_TEMPERATURE, MODULE_TEMPERATURE, IRRADIATION
+ Solar Plant 2 Generation 67698        7               0                       DATE_TIME, PLANT_ID, SOURCE_KEY, DC_POWER, AC_POWER, DAILY_YIELD, TOTAL_YIELD
+ Solar    Plant 2 Weather  3259        6               0               DATE_TIME, PLANT_ID, SOURCE_KEY, AMBIENT_TEMPERATURE, MODULE_TEMPERATURE, IRRADIATION
+  Wind      Turbine SCADA 50530        5               0 Date/Time, LV ActivePower (kW), Wind Speed (m/s), Theoretical_Power_Curve (KWh), Wind Direction (°)
+
+Solar chronological cutoff: 2020-06-11T04:45:00.000000
+Solar train rows: 5112
+Solar test rows: 1304
+
+Wind chronological cutoff: 2018-10-18T22:40:00.000000
+Wind train rows: 40424
+Wind test rows: 10106
+
+MODEL METRICS
+dataset             model         MAE        RMSE       R2  train_rows  test_rows
+  Solar Linear Regression 1560.782916 2156.623841 0.901061        5112       1304
+  Solar          LightGBM  453.320648 1327.760106 0.962498        5112       1304
+   Wind Linear Regression  247.002312  409.494458 0.906897       40424      10106
+   Wind          LightGBM  220.598903  436.211152 0.894353       40424      10106
+
+Method notes:
+- 80/20 split is chronological rather than randomly shuffled.
+- Solar target: AC_POWER.
+- Solar generation-related leakage variables were excluded.
+- Wind target: LV ActivePower (kW).
+- Wind direction was encoded with sine/cosine components.
+- random_state=42 is used for LightGBM reproducibility.
